@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="team.project.mapper.ReviewMapper">
+	<select id="getReview" parameterType="int" resultType="team.project.dto.ReviewDto">
+		<![CDATA[ 
+			SELECT
+				review.car_index,
+				review.user_index,
+				user.user_nickname,
+				review.review_date,
+				review.review_contents,
+				review.likes
+			FROM review, user WHERE car_index = #{carIndex}
+		]]>
+	</select>
+</mapper>

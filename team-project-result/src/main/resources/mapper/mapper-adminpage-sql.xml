@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.project.mapper.AdminPageMapper">
+	<select id="AccountManageList" resultType="team.project.dto.AdminPageDto">
+		<![CDATA[
+			SELECT * FROM user ORDER BY user_index ASC
+		]]>
+	</select>
+
+	<!--<update id="isBlockedUpdate" parameterType="HashMap">
+	    <![CDATA[ 
+	        UPDATE user SET is_block = #{isBlock} WHERE user_index = #{userIndex}
+	    ]]>
+	</update>-->
+
+	<update id="isBlockedUpdate" parameterType="int">
+		<![CDATA[ 
+	        UPDATE user SET is_block = #{isBlock} WHERE user_index = #{userIndex}
+	    ]]>
+	</update>
+	
+	<select id="CarManageList" resultType="team.project.dto.AdminPageDto">
+		<![CDATA[
+			SELECT *
+			FROM car 
+			ORDER BY car_index ASC
+		]]>
+	</select>
+	
+	<update id="CarUpdate" parameterType="team.project.dto.AdminPageDto">
+	    <![CDATA[ 
+	        UPDATE car
+	        SET
+	        car_index = #{carIndex},
+	        car_model = #{carModel},
+	        car_fuel = #{carFuel},
+	        car_clear = #{carClear}
+	        WHERE car_index = #{carIndex}
+	    ]]>
+	</update>
+	
+	<insert id="CarInfoInsert" parameterType="team.project.dto.AdminPageDto">
+		<![CDATA[
+			INSERT INTO
+				car (car_number, car_model, car_take_person, car_clear, car_fuel, car_option1, car_option2, car_option3, car_usage, car_location)
+			VALUES
+				(#{carNumber}, #{carModel}, #{carTakePerson}, #{carClear}, #{carFuel}, #{carOption1}, #{carOption2}, #{carOption3}, #{carUsage}, #{carLocation});
+		]]>
+	</insert>
+	
+	<select id="adminCarDelete" parameterType="team.project.dto.AdminPageDto">
+        <![CDATA[ 
+            DELETE FROM car
+            WHERE car_index= #{carIndex}
+        ]]>
+    </select>
+	
+	 <select id="ReviewManageList" resultType="team.project.dto.AdminPageDto">
+        <![CDATA[
+            SELECT * FROM review ORDER BY car_index ASC, user_index ASC
+        ]]>
+    </select>
+    
+    <select id="adminReviewDelete" parameterType="team.project.dto.AdminPageDto">
+        <![CDATA[ 
+            DELETE FROM review
+            WHERE user_index = #{userIndex} AND car_index= #{carIndex}
+        ]]>
+    </select>
+    
+    <select id="ReviewManageUserList" resultType="team.project.dto.AdminPageDto">
+        <![CDATA[ 
+            SELECT * FROM review WHERE user_index = #{userIndex} ORDER BY car_index ASC 
+        ]]>
+    </select>
+	
+	<select id="CarEditInfo" resultType="team.project.dto.AdminPageDto">
+	    <![CDATA[ 
+	        SELECT *
+	        FROM car
+	        WHERE car_index = #{carIndex}
+	    ]]>
+	</select>
+	
+	<update id="CarEditSubmit" parameterType="team.project.dto.AdminPageDto">
+	    <![CDATA[ 
+	        UPDATE car
+	        SET
+	        car_model=#{carModel},
+	        car_number=#{carNumber},
+	        car_take_person=#{carTakePerson},
+	        car_clear= #{carClear},
+	        car_fuel=#{carFuel},
+	        car_option1=#{carOption1},
+	        car_option2=#{carOption2},
+	        car_option3=#{carOption3},
+	        car_usage=#{carUsage},
+	        car_location=#{carLocation}
+	        WHERE car_index = #{carIndex}
+	    ]]>
+	</update>
+</mapper>
