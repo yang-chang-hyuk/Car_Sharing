@@ -15,5 +15,5 @@ API 서버 포트: `8090`
 
 
 * 데이터베이스 명: `team_carsharing`
-* 데이터베이스 데이터: https://github.com/qufnr/team_project_carsharing/blob/main/team_carsharing.sql
+* 데이터베이스 데이터: https://github.com/yang-chang-hyuk/Car_Sharing/blob/main/Database.sql
   * MySQL에서 Import 해야합니다.
