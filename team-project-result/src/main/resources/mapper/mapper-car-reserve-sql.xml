@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.project.mapper.CarReserveMapper">
+	<select id="getCarReservedData" parameterType="int" resultType="team.project.dto.CarReserveDto">
+		<![CDATA[ 
+			SELECT * FROM car_reserve WHERE car_index = #{carIndex}
+		]]>
+	</select>
+	
+	<select id="isCarReserved" parameterType="int" resultType="int">
+		<![CDATA[ 
+			SELECT COUNT(*) FROM car_reserve WHERE car_index = #{carIndex}
+		]]>
+	</select>
+	
+	<select id="getUserCarReservedData" parameterType="int" resultType="team.project.dto.CarReserveDto">
+		<![CDATA[ 
+			SELECT * FROM car_reserve WHERE user_index = #{userIndex}
+		]]>
+	</select>
+	
+	<select id="isUserCarReserved" parameterType="int" resultType="int">
+		<![CDATA[ 
+			SELECT COUNT(*) FROM car_reserve WHERE user_index = #{userIndex}
+		]]>
+	</select>
+	
+	<select id="getReserveCarFromLocation" parameterType="String" resultType="team.project.dto.CarDto">
+		<![CDATA[ 
+			SELECT
+				a.car_index, a.car_number, a.car_model, a.car_price, a.car_take_person, a.car_clear,
+			    a.car_fuel, a.car_option1, a.car_option2, a.car_option3, a.car_usage, a.car_location, a.car_image
+			FROM car a
+			LEFT OUTER JOIN car_reserve b
+			ON a.car_index = b.car_index
+			WHERE a.car_location = #{location}
+			AND b.user_index IS NOT NULL
+		]]>
+	</select>
+	
+	<!-- 차량 예약하기 -->
+	<insert id="carReserve" parameterType="team.project.dto.CarReserveDto">
+		<![CDATA[ 
+			INSERT INTO car_reserve(car_index, user_index, reserve_date_start, reserve_date_end, car_reserve_price)
+			VALUES(#{carIndex}, #{userIndex}, #{reserveDateStart}, #{reserveDateEnd}, #{carReservePrice})
+		]]>
+	</insert>
+	
+	<!-- 사용자 예약 차랑 삭제하기 -->
+	<delete id="deleteUserReserveCar" parameterType="int">
+		<![CDATA[ 
+			DELETE FROM car_reserve WHERE user_index = #{userIndex}
+		]]>
+	</delete>
+</mapper>

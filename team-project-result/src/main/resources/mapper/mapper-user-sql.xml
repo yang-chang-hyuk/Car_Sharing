@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.project.mapper.UserMapper">
+	<select id="getUser" parameterType="HashMap" resultType="team.project.dto.UserDto">
+		<![CDATA[ 
+			SELECT * FROM user WHERE user_id = #{userId} AND user_pw = SHA1(#{userPw})
+		]]>
+	</select>
+	<select id="getUserFromSession" parameterType="HashMap" resultType="team.project.dto.UserDto">
+		<![CDATA[ 
+			SELECT * FROM user WHERE user_id = #{userId} AND user_pw = #{userPw}
+		]]>
+	</select>
+	
+	<insert id="vueUserJoin" parameterType="team.project.dto.UserDto">
+		<![CDATA[ 
+			INSERT INTO
+				user(user_id, user_pw, user_name, user_regnum, user_regnum_gender, user_nickname, user_phone)
+			VALUES
+				(#{userId}, SHA1(#{userPw}), #{userName}, #{userRegnum}, #{userRegnumGender}, #{userNickname}, #{userPhone})
+		]]>
+	</insert>
+	
+	<select id="vueVerifyEmail" parameterType="String" resultType="int">
+		<![CDATA[ 
+			SELECT COUNT(*) FROM user WHERE user_id = #{userId}
+		]]>
+	</select>
+	
+	<update id="vueUserUpdate" parameterType="team.project.dto.UserDto">
+		<![CDATA[
+			UPDATE
+				user
+			SET
+				user_nickname = #{userNickname},
+				user_phone = #{userPhone}
+			WHERE
+				user_index = #{userIndex}
+		]]>
+	</update>
+	
+	<select id="vueUserDetail" resultType="team.project.dto.UserDto" parameterType="int">
+		<![CDATA[ 
+			SELECT 
+				user_index, user_id, user_name, user_nickname, user_regnum, user_card_num, user_phone, user_card_validity
+			FROM
+				user
+			WHERE
+				user_index = #{userIndex}
+		]]>
+	</select>
+	
+	<update id="setProfile" parameterType="team.project.dto.UserDto">
+		<![CDATA[
+			UPDATE user SET user_profile = #{userProfile} WHERE user_index = #{userIndex}
+		]]>
+	</update>
+	
+	<select id="getProfile" parameterType="int" resultType="team.project.dto.UserDto">
+		<![CDATA[ 
+			SELECT user_profile FROM user WHERE user_index = #{userIndex}
+		]]>
+	</select>
+	
+	<update id="cardReg" parameterType="team.project.dto.UserDto">
+		<![CDATA[ 
+			UPDATE user SET
+				user_card_num = #{userCardNum},
+	    		user_card_validity = #{userCardValidity},
+	    		user_card_pw = #{userCardPw}
+			WHERE
+				user_index = #{userIndex}
+		]]>
+	</update>
+	
+	<insert id="driverLicense" parameterType="team.project.dto.LicenseDto">
+		<![CDATA[ 
+			INSERT INTO
+				driverlicense(user_index, license_type, license_num, license_pass_date)
+			VALUES
+				(#{userIndex}, #{licenseType}, #{licenseNum}, #{licensePassDate})	
+		]]>
+	</insert>
+	
+	<select id="licenseDetail" parameterType="int" resultType="team.project.dto.LicenseDto">
+		<![CDATA[ 
+			SELECT * FROM driverlicense WHERE user_index = #{userIndex}
+		]]>
+	</select>
+	
+	<select id="ReviewSelect" resultType="team.project.dto.ReviewDto" parameterType="int">
+		<![CDATA[ 
+			SELECT
+				a.user_index, b.car_model, b.car_number, a.car_index, DATE_FORMAT(a.review_date, '%Y.%m.%d %H:%i:%s') AS review_date, a.review_contents 
+			FROM 
+				review a
+			LEFT OUTER JOIN
+				car b
+			ON
+				a.car_index = b.car_index
+			WHERE user_index = #{userIndex}
+		]]>
+	</select>
+</mapper>
