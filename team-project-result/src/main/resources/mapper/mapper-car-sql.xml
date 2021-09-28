@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.project.mapper.CarMapper">
+	<select id="getCars" resultType="team.project.dto.CarDto">
+		<![CDATA[
+			SELECT * FROM car
+		]]>
+	</select>
+	
+	<select id="getCarData" resultType="team.project.dto.CarDto" parameterType="int">
+		<![CDATA[ 
+			SELECT * FROM car WHERE car_index = #{carIndex}
+		]]>
+	</select>
+	
+	<!-- 해당 위치에 있는 차량 개수 구하기 -->
+	<select id="getCarCountFromLocation" resultType="int" parameterType="String">
+		<![CDATA[ 
+			SELECT COUNT(*) FROM car WHERE car_location = #{location}
+		]]>
+	</select>
+	
+	<!-- 해당 위치에 있는 차량 데이터 구하기 -->
+	<select id="getCarFromLocation" resultType="team.project.dto.CarDto" parameterType="String">
+		<![CDATA[ 
+			SELECT * FROM car WHERE car_location = #{location}
+		]]>
+	</select>
+	
+	<select id="getAllowReserveCarCountFromLocation" resultType="int" parameterType="String">
+		<![CDATA[ 
+
+			SELECT
+				COUNT(*)
+			FROM car a
+			LEFT OUTER JOIN car_reserve b
+			ON a.car_index = b.car_index
+			WHERE a.car_location = #{location}
+			AND b.user_index IS NULL
+		]]>
+	</select>
+	
+	<!-- 해당 위치에 대여 가능한 차량 구하기 -->
+	<select id="getAllowReserveCarFromLocation" resultType="team.project.dto.CarDto" parameterType="String">
+		<![CDATA[ 
+			SELECT
+				a.car_index, a.car_number, a.car_model, a.car_price, a.car_take_person, a.car_clear,
+			    a.car_fuel, a.car_option1, a.car_option2, a.car_option3, a.car_usage, a.car_location, a.car_image
+			FROM car a
+			LEFT OUTER JOIN car_reserve b
+			ON a.car_index = b.car_index
+			WHERE a.car_location = #{location}
+			AND b.user_index IS NULL
+		]]>
+	</select>
+	
+	<!-- 중복되는 지역을 하나로 묶어서 차량 개수 구하기 -->
+	<select id="getCarCountFromUniqueLocation" resultType="team.project.dto.UniqueLocationDto">
+		<![CDATA[ 
+			SELECT COUNT(*) car_count, car_location FROM car GROUP BY car_location
+		]]>
+	</select>
+</mapper>
