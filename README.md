@@ -2,6 +2,10 @@
 직업전문학교 팀 프로젝트 카셰어링
 
 2021.09 직업전문학교 팀 프로젝트입니다.  
+http://www.teamproject-carshare.p-e.kr/
+로그인
+아이디: root@localhost
+비밀번호: 12324
 
 * Vue 프로젝트 파일: `team-project-result/src/main/vue-teamproject`  
 * Vue 프로젝트 설치 방법: https://github.com/yang-chang-hyuk/Car_Sharing/blob/main/team-project-result/src/main/vue-teamproject/README.md
