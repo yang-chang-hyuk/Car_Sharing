@@ -6,7 +6,7 @@
 
 * 로그인
 아이디: root@localhost
-비밀번호: 12324
+비밀번호: 1234
 
 * Vue 프로젝트 파일: `team-project-result/src/main/vue-teamproject`  
 * Vue 프로젝트 설치 방법: https://github.com/yang-chang-hyuk/Car_Sharing/blob/main/team-project-result/src/main/vue-teamproject/README.md
